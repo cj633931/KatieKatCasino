@@ -1,8 +1,6 @@
-<?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<?php include 'header.php'; ?>
+<main>
+    <h2>Play</h2>
+    <p>Lorem Ipsum</p>
+</main>
+<?php include 'footer.php'; ?>

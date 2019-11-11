@@ -1,10 +1,4 @@
 <?php
-$dirname = dirname(__DIR__);
-$boom = explode("\\", $dirname);
-$basedir = array_pop($boom);
-
-//array_pop(explode("\\", dirname(__DIR__))) 
-
 require('../../model/database/database.php');
 require('../../model/database/profile_db.php');
 require('../../model/database/profile.php');
@@ -14,34 +8,34 @@ $action = filter_input(INPUT_GET, 'action');
 // This switch seems to be a common thing when it comes to action handling.
 // It works exactly like an if/else but is cleaner.
 switch ($action) {
-    case '':
-        include $basedir;
-        break;
-    
     case 'view_play':
+        include '../../view/play.php';
         break;
     
     case 'view_rules':
+        include '../../view/rules.php';
         break;
     
     case 'view_scores':
+        include '../../view/scores.php';
         break;
     
     case 'view_about':
+        include '../../view/about.php';
         break;
     
     case 'view_profile':
         session_start();
-        if (!isset($_SESSION['session'])) { // Redirect if they aren't logged in
+        if (isset($_SESSION['session'])) { // Redirect if they aren't logged in
             $profile = ProfileDB::get_profile_info($_SESSION['session']);
-            include $basedir . '/view/profile.php';
+            include '../../view/profile.php';
         } else {
-            include $basedir . '/view/view_login.php';
+            include '../../view/login.php';
         }
         break;
     
     case 'view_login':
-        include $basedir . '/view/login.php';
+        include '../../view/login.php';
         break;
     
     case 'try_login':
@@ -65,7 +59,7 @@ switch ($action) {
             $messages = array('', '', '', '');
         }
         $password = '';
-        include $basedir . '/view/new_profile.php';
+        include '../../view/new_profile.php';
         break;
         
     case 'create_new_profile':
@@ -77,11 +71,11 @@ switch ($action) {
         
         $messages = validate_profile($fName, $lName, $username, $password);
         if (find_error($messages)) {
-            include $basedir . '/view/new_profile.php';
+            include '../../view/new_profile.php';
         } else {
             $password = password_hash($password, PASSWORD_BCRYPT);
             ProfileDB::add_profile($fName, $lName, $username, $password);
-            include $basedir . '/view/profile.php';
+            include '../../view/profile.php';
         }
         break;
 }
