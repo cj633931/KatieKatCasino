@@ -1,6 +1,6 @@
 <?php
 
-class UserDB {
+class ProfileDB {
     
     private static function update_session($username, $session) {
         $db = Database::getDB();
