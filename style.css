@@ -1,0 +1,66 @@
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-image: url("pattern.png");
+}
+
+header {
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+header h1 {
+    float: left;
+    margin: 0px;
+    background-color: black;
+    color: #D00000;
+}
+
+header h1 a {
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    color: #D00000;
+}
+
+#wrapper {
+    width: 900px;
+    margin: auto;
+    background-color: #D00000;
+    min-height: 750px;
+}
+
+nav {
+    overflow: hidden;
+}
+
+nav ul {
+    float: right;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    background-color: black;
+}
+
+nav li {
+    float: right;
+}
+
+nav li a {
+    display: block;
+    color: #D00000;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+}
+
+nav li a:hover {
+    background-color: white;
+    color: black;
+}
+
+main {
+    margin: 1%;
+}
