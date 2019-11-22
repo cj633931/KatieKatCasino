@@ -120,7 +120,7 @@ class Card {
         return $this->showing;
     }
     
-    public function setShowing($showing) {
-        $this->showing = $showing;
+    public function flip() {
+        $this->showing = !$this->showing;
     }
 }

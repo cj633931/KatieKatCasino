@@ -14,6 +14,7 @@ class Deck {
                     array_push($this->cards, $newCard);
                 }
             }
+            $decksCreated++;
         }
     }
     
