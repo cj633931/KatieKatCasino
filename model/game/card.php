@@ -123,11 +123,4 @@ class Card {
     public function setShowing($showing) {
         $this->showing = $showing;
     }
-
-
 }
-
-// VALUE -> NAME
-// SUIT -> UNICODE
-// NAME -> HARDVALUES
-// NAME -> SOFTVALUES
