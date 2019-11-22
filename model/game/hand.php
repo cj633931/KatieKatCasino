@@ -135,27 +135,69 @@ class Hand {
         return $this->canHit();
     }
     
+    public function getCards() {
+        return $this->cards;
+    }
+
     public function getBet() {
         return $this->bet;
     }
-    
-    public function getBlackjack() {
+
+    public function isBlackjack() {
         return $this->blackjack;
     }
-    
-    public function getBusted() {
+
+    public function isBusted() {
         return $this->busted;
     }
-    
-    public function getDone() {
-        return $this->done;
+
+    public function isStanding() {
+        return $this->standing;
     }
-    
-    public function getSplit() {
+
+    public function isSplit() {
         return $this->split;
     }
-    
-    public function getDoubled() {
+
+    public function isDoubled() {
         return $this->doubled;
     }
+
+    public function isDone() {
+        return $this->done;
+    }
+
+    public function setCards($cards) {
+        $this->cards = $cards;
+    }
+
+    public function setBet($bet) {
+        $this->bet = $bet;
+    }
+
+    public function setBlackjack($blackjack) {
+        $this->blackjack = $blackjack;
+    }
+
+    public function setBusted($busted) {
+        $this->busted = $busted;
+    }
+
+    public function setStanding($standing) {
+        $this->standing = $standing;
+    }
+
+    public function setSplit($split) {
+        $this->split = $split;
+    }
+
+    public function setDoubled($doubled) {
+        $this->doubled = $doubled;
+    }
+
+    public function setDone($done) {
+        $this->done = $done;
+    }
+
+
 }
