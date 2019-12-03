@@ -13,6 +13,7 @@ class Hand {
 
     public function __construct($bet) {
         $this->bet = $bet;
+        // Send the hand and its bet to the database
     }
 
     public function __toString() {
@@ -132,6 +133,7 @@ class Hand {
     }
     
     private function canDouble() {
+        // If you can hit, you can double down.
         return $this->canHit();
     }
     

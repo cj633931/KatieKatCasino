@@ -4,10 +4,10 @@ class Player {
     
     private $name;
     private $money;
-    private $hands;
-    private $game;
+    private $hands = array();
+    private $game = NULL; // if a game is NULL that means they haven't joined one yet
     
-    public function __construct($name, $money) {
+    public function __construct($name, $money, $initialBet=1, $type='human') {
         $this->name = $name;
         $this->money = $money;
     }
@@ -42,7 +42,7 @@ class Player {
         }
     }
     
-    private function pony_up($amount) {
+    private function ponyUp($amount) {
         if ($this->money >= $amount) {
             $this->money -= $amount;
             $this->game->getDealer()->rakeIn($amount);
@@ -51,7 +51,7 @@ class Player {
         }
     }
     
-    private function rake_in($amount) {
+    public function rakeIn($amount) {
         $this->money += $amount;
     }
     
@@ -59,4 +59,34 @@ class Player {
 //        
 //    }
 //    STILL NEEDS TO BE IMPLEMENTED.
+    
+    public static function shouldDoubleWith($hand) {
+        $should = FALSE;
+        if ($hand->getValue() === 11) {
+            $should = TRUE;
+        }
+        return $should;
+    }
+    
+    public static function shouldSplitWith($hand) {
+        $should = FALSE;
+        if ($hand->canSplit() && $this->money >= $hand->bet && $hand->getValue()) {
+            $should = TRUE;
+        }
+        return $should;
+    }
+    
+    public static function shouldStandWith($hand) {
+        $should = FALSE;
+        if ($hand->getValue() >= 16) {
+            $should = TRUE;
+        }
+        return $should;
+    }
+    
+    public static function shouldSurrenderWith($hand) {
+        // Surrendering is almost always a bad idea for players. They shouldn't.
+        return FALSE;
+    }
+    
 }
