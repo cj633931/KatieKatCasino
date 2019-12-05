@@ -12,10 +12,12 @@ class Dealer extends Player {
     }
     
     public function deal() {
+        // Generate a new deck if one doesn't exist.
         if (count($this->deck) < 1) {
             $this->deck = new Deck();
             $this->deck->shuffle();
         }
+        // Draw, flip, and return a card.
         $card = $this->deck->draw();
         $card->flip();
         return $card;
@@ -27,20 +29,21 @@ class Dealer extends Player {
     
     // The following few methods overwrite Player methods that a dealer
     // isn't legally allowed to do.
-    public function shouldSplitWith($hand) {
+    private function shouldSplitWith($hand) {
         return FALSE;
     }
     
-    public function shouldDoubleWith($hand) {
+    private function shouldDoubleWith($hand) {
         return FALSE;
     }
     
-    public function shouldSurrenderWith($hand) {
+    private function shouldSurrenderWith($hand) {
         return FALSE;
     }
     
     // A dealer, unlike a player, MUST stand on 17 due to house rules.
-    public function shouldStandWith($hand) {
+    // This will also include a soft 17 hand.
+    private function shouldStandWith($hand) {
         $should = FALSE;
         if ($hand->getValue() >= 17) {
             $should = TRUE;
@@ -49,7 +52,7 @@ class Dealer extends Player {
     }
     
     // Dealer should shuffle if each player isn't allowed 8 cards.
-    public function shouldShuffle($playerCount) {
+    private function shouldShuffle($playerCount) {
         if (count($this->deck) < ($playerCount * 8)) {
             return TRUE;
         } else {
@@ -57,7 +60,40 @@ class Dealer extends Player {
         }
     }
     
+    // Pay out to players depending on situation.
     public function payOut($player) {
-        $dealerHand = $this->hands;
+        $dealerHand = $this->hands[0];
+        $winnings = 0;
+        foreach($player->hands as $hand) {
+            // If the player's hand busted, they don't win.
+            if ($hand->isBusted()) {
+                $winnings = 0;
+            } 
+            // If the player's hand is a blackjack, they win 2.5x their bet.
+            elseif ($hand->isBlackjack()) {
+                    $winnings += $hand->getBet() * 2.5;
+            } 
+            // If the dealer busted, payout depending on bet.
+            elseif ($dealerHand->isBusted()) {
+                $winnings = $hand->getBet() * 2;
+                if ($hand->isDoubled()) {
+                    $winnings = $hand->getBet() * 4;
+                }
+            }
+            // If the dealer's hand is equal to the player's hand, push.
+            elseif ($dealerHand->getValue() == $hand->getValue()) {
+                $winnings = $hand->getBet();
+            }
+            // If the dealer's hand is higher but no bust
+            elseif ($dealerHand->getValue() > $hand->getValue()) {
+                $winnings = 0;
+            }
+            // If the player's hand is higher but no bust
+            elseif ($dealerHand->getValue() < $hand->getValue()) {
+                $winnings = $hand->getBet() * 2;
+            }
+            $player->rakeIn($winnings);
+        }
     }
+   
 }

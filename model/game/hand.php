@@ -13,7 +13,6 @@ class Hand {
 
     public function __construct($bet) {
         $this->bet = $bet;
-        // Send the hand and its bet to the database
     }
 
     public function __toString() {
@@ -62,7 +61,7 @@ class Hand {
         }
     }
 
-    private function getValue() {
+    public function getValue() {
         $value = $this->getSoftValue();
         if ($value > 21) {
             $value = $this->getHardValue();
