@@ -2,6 +2,9 @@
 require('../../model/database/database.php');
 require('../../model/database/profile_db.php');
 require('../../model/database/profile.php');
+require('../../model/game/game.php');
+require("../model/dealer.php");
+require("../model/human.php");
 
 $action = filter_input(INPUT_GET, 'action');
 
@@ -10,6 +13,10 @@ $action = filter_input(INPUT_GET, 'action');
 switch ($action) {
     case 'view_play':
         include '../../view/play.php';
+        break;
+    
+    case 'start_game':
+        $player = new Human($name, $money, $initialBet);
         break;
     
     case 'view_rules':

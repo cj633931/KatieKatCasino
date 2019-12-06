@@ -6,10 +6,12 @@ class Player {
     private $money;
     private $hands = array();
     private $game = NULL; // if a game is NULL that means they haven't joined one yet.
+    private $type;
     
     public function __construct($name, $money, $initialBet=1, $type='human') {
         $this->name = $name;
         $this->money = $money;
+        $this->type = $type;
     }
     
     // Join a game only if the player isn't in one
@@ -59,12 +61,19 @@ class Player {
         $this->money += $amount;
     }
     
-//    public function play() {
-//        
-//    }
-//    STILL NEEDS TO BE IMPLEMENTED.
+    public function play() {
+        foreach ($this->hands as $hand) {
+            while (!$hand->isDone()) {
+                $bet = $hand->getBet();
+                if ($this->type == 'human') {
+                    $this->decide(hand);
+                }
+            }
+        }
+    }
     
     public static function shouldDoubleWith($hand) {
+        // A player should double down when they have an 11.
         $should = FALSE;
         if ($hand->getValue() === 11) {
             $should = TRUE;
@@ -73,14 +82,16 @@ class Player {
     }
     
     public static function shouldSplitWith($hand) {
+        // A player should split if they can split, they have enough money, and the hand value is 20.
         $should = FALSE;
-        if ($hand->canSplit() && $this->money >= $hand->bet && $hand->getValue()) {
+        if ($hand->canSplit() && $this->money >= $hand->bet && $hand->getValue() === 20) {
             $should = TRUE;
         }
         return $should;
     }
     
     public static function shouldStandWith($hand) {
+        // Optimally, a player should stand when their hand is greater than or equal to 16.
         $should = FALSE;
         if ($hand->getValue() >= 16) {
             $should = TRUE;
@@ -93,4 +104,7 @@ class Player {
         return FALSE;
     }
     
+    public function getName() {
+        return $this->name;
+    }
 }

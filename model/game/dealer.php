@@ -4,7 +4,6 @@ class Dealer extends Player {
     
     private $deck;
     
-    
     public function __construct($deckCount=6) {
         Player::__construct('Dealer', 1000000, 0, 'dealer');
         $this->deck = new Deck($deckCount);
@@ -52,7 +51,7 @@ class Dealer extends Player {
     }
     
     // Dealer should shuffle if each player isn't allowed 8 cards.
-    private function shouldShuffle($playerCount) {
+    public function shouldShuffle($playerCount) {
         if (count($this->deck) < ($playerCount * 8)) {
             return TRUE;
         } else {
