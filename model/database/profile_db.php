@@ -40,18 +40,18 @@ class ProfileDB {
     
     public static function try_login($username, $password) {
         $db = Database::getDB();
-        $query = "SELECT `password` FROM profiles WHERE `username` = :username";
+        $query = 'SELECT `password` FROM profiles WHERE `username` = :username';
         $stmt = $db->prepare($query);
-        $stmt->bindValue(":username", $username);
+        $stmt->bindValue(':username', $username);
         $stmt->execute();
         $result = $stmt->fetchAll();
         $stmt->closeCursor();
         if(count($result) > 0) {
-            $profile = $result[0];
-            if(password_verify($password, $profile["password"])) {
+            $hashedPassword = $result[0];
+            if(password_verify($password, $hashedPassword['password'])) {
                 session_start();
-                $_SESSION["session"] = session_create_id();
-                UserDB::update_session_id($username, $_SESSION["session"]);
+                $_SESSION['session'] = session_create_id();
+                ProfileDB::update_session($username, $_SESSION['session']);
                 return true;
             }
         }
@@ -78,8 +78,17 @@ class ProfileDB {
             return null;
         } else {
             $record = $results[0];
-            $profile = new Profile($record["fName"], $record["lName"], $record["username"], $record["password"]);
+            $profile = new Profile($record["fName"], $record["lName"], $record["username"]);
             return $profile;
         }
+    }
+    
+    public static function logout($session) {
+        $db = Database::getDB();
+        $query = "UPDATE profiles SET session = null WHERE session = :session";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(":session", $session);
+        $stmt->execute();
+        $stmt->closeCursor();
     }
 }

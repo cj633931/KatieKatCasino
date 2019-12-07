@@ -1,5 +1,5 @@
 <?php
-
+require_once 'player.php';
 class Dealer extends Player {
     
     private $deck;
@@ -28,21 +28,21 @@ class Dealer extends Player {
     
     // The following few methods overwrite Player methods that a dealer
     // isn't legally allowed to do.
-    private function shouldSplitWith($hand) {
+    public function shouldSplitWith($hand) {
         return FALSE;
     }
     
-    private function shouldDoubleWith($hand) {
+    public function shouldDoubleWith($hand) {
         return FALSE;
     }
     
-    private function shouldSurrenderWith($hand) {
+    public function shouldSurrenderWith($hand) {
         return FALSE;
     }
     
     // A dealer, unlike a player, MUST stand on 17 due to house rules.
     // This will also include a soft 17 hand.
-    private function shouldStandWith($hand) {
+    public function shouldStandWith($hand) {
         $should = FALSE;
         if ($hand->getValue() >= 17) {
             $should = TRUE;

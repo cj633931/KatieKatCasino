@@ -72,7 +72,7 @@ class Player {
         }
     }
     
-    public static function shouldDoubleWith($hand) {
+    public function shouldDoubleWith($hand) {
         // A player should double down when they have an 11.
         $should = FALSE;
         if ($hand->getValue() === 11) {
@@ -81,7 +81,7 @@ class Player {
         return $should;
     }
     
-    public static function shouldSplitWith($hand) {
+    public function shouldSplitWith($hand) {
         // A player should split if they can split, they have enough money, and the hand value is 20.
         $should = FALSE;
         if ($hand->canSplit() && $this->money >= $hand->bet && $hand->getValue() === 20) {
@@ -90,7 +90,7 @@ class Player {
         return $should;
     }
     
-    public static function shouldStandWith($hand) {
+    public function shouldStandWith($hand) {
         // Optimally, a player should stand when their hand is greater than or equal to 16.
         $should = FALSE;
         if ($hand->getValue() >= 16) {
@@ -99,12 +99,19 @@ class Player {
         return $should;
     }
     
-    public static function shouldSurrenderWith($hand) {
+    public function shouldSurrenderWith($hand) {
         // Surrendering is almost always a bad idea for players. They shouldn't.
         return FALSE;
     }
     
     public function getName() {
         return $this->name;
+    }
+    
+    public function getAvailableOptions() {
+        $options = array();
+        if ($this->hands) {
+            
+        }
     }
 }

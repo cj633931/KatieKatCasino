@@ -5,13 +5,11 @@ class Profile {
     private $firstName;
     private $lastName;
     private $username;
-    private $password;
 
-    function __construct($firstName = "", $lastName = "", $username = "", $password = "") {
+    function __construct($firstName = "", $lastName = "", $username = "") {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->username = $username;
-        $this->password = $password;
     }
 
     function getFirstName() {
