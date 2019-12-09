@@ -109,7 +109,7 @@ class Hand {
         }
     }
     
-    private function canSplit() {
+    public function canSplit() {
         $canSplit = FALSE;
         if (count($this->cards) === 2) {
             if ($this->cards[0]->getSoftValue() === $this->cards[1]->getSoftValue() && !$this->done) {
@@ -131,9 +131,18 @@ class Hand {
         }
     }
     
-    private function canDouble() {
+    public function canDouble() {
         // If you can hit, you can double down.
         return $this->canHit();
+    }
+    
+    public function canSurrender() {
+        // You can only surrender when the hand has two cards.
+        if (count($this->cards) > 2) {
+            return FALSE;
+        } else {
+            return TRUE;
+        }
     }
     
     public function getCards() {

@@ -14,11 +14,20 @@ $action = filter_input(INPUT_GET, 'action');
 switch ($action) {
     case 'view_play':
         session_start();
-        if (!isset($_SESSION['user'])) {
-//////////////////////////////////////////////////////////////
+        if (!isset($_SESSION['session'])) {
+            $_SESSION['player'] = new Player('Guest', 1000);
         } else {
-            $user = $_SESSION['user'];
+            $profile = ProfileDB::get_profile_info($_SESSION['session']);
+            $_SESSION['player'] = new Player($profile['username'], $profile['money']);
         }
+        $_SESSION['game'] = new Game(1, 50);
+        $_SESSION['game']->addPlayer($_SESSION['player']);
+        $isNewHand = TRUE;
+        $canSurrender = FALSE;
+        $canHit = FALSE;
+        $canStand = FALSE;
+        $canDouble = FALSE;
+        $canSplit = FALSE;
         include '../view/play.php';
         break;
 

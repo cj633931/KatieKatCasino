@@ -5,34 +5,44 @@ class Profile {
     private $firstName;
     private $lastName;
     private $username;
+    private $money;
 
-    function __construct($firstName = "", $lastName = "", $username = "") {
+    public function __construct($firstName='', $lastName='', $username='', $money=1000) {
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->username = $username;
+        $this->money = $money;
     }
 
-    function getFirstName() {
+    public function getFirstName() {
         return $this->firstName;
     }
     
-    function setFirstName($firstName) {
+    public function setFirstName($firstName) {
         $this->firstName = $firstName;
     }
     
-    function getLastName() {
+    public function getLastName() {
         return $this->lastName;
     }
     
-    function setLastName($lastName) {
+    public function setLastName($lastName) {
         $this->lastName = $lastName;
     }
     
-    function getUsername() {
+    public function getUsername() {
         return $this->username;
     }
     
-    function setUsername($username) {
+    public function setUsername($username) {
+        $this->username = $username;
+    }
+    
+    public function getMoney() {
+        return $this->money;
+    }
+    
+    public function setMoney($username) {
         $this->username = $username;
     }
 }

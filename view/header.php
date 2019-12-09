@@ -2,7 +2,9 @@
 $dirname = dirname(__DIR__);
 $boom = explode("\\", $dirname);
 $basedir = array_pop($boom);
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 ?>
 
 <!DOCTYPE html>

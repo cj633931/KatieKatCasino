@@ -18,6 +18,7 @@ class Game {
         $this->deckCount = $deckCount;
         $this->maxPlayers = $maxPlayers;
         $this->maxPlayers += 1; // Add an extra for the dealer.
+        $this->dealer = new Dealer();
         $this->dealer->joinGame($this);
     }
     

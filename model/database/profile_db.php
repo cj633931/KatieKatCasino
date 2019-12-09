@@ -13,12 +13,13 @@ class ProfileDB {
 
     public static function add_profile($fName, $lName, $username, $password) {
         $db = Database::getDB();
-        $query = 'INSERT INTO profiles(fName, lName, username, password) VALUES (:fName, :lName, :username, :password)';
+        $query = 'INSERT INTO profiles(fName, lName, username, password, money) VALUES (:fName, :lName, :username, :password, :money)';
         $statement = $db->prepare($query);
         $statement->bindValue(':fName', $fName);
         $statement->bindValue(':lName', $lName);
         $statement->bindValue(':username', $username);
         $statement->bindValue(":password", $password);
+        $statement->bindValue(':money', 1000);
         $statement->execute();
         // This won't return anything, as it's adding a user and nothing else.
     }
@@ -78,7 +79,7 @@ class ProfileDB {
             return null;
         } else {
             $record = $results[0];
-            $profile = new Profile($record["fName"], $record["lName"], $record["username"]);
+            $profile = new Profile($record["fName"], $record["lName"], $record["username"], $record["money"]);
             return $profile;
         }
     }

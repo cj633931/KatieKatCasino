@@ -1,11 +1,12 @@
 <?php
 require_once 'player.php';
+require_once 'deck.php';
 class Dealer extends Player {
     
     private $deck;
     
     public function __construct($deckCount=6) {
-        Player::__construct('Dealer', 1000000, 0, 'dealer');
+        Player::__construct('Dealer', 1000000, 'dealer');
         $this->deck = new Deck($deckCount);
         $this->deck->shuffle();
     }

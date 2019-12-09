@@ -8,7 +8,7 @@ class Player {
     private $game = NULL; // if a game is NULL that means they haven't joined one yet.
     private $type;
     
-    public function __construct($name, $money, $initialBet=1, $type='human') {
+    public function __construct($name, $money, $type='human') {
         $this->name = $name;
         $this->money = $money;
         $this->type = $type;
@@ -23,7 +23,7 @@ class Player {
         }
     }
     
-    // Leave whatever game the player was at.
+    // Leave whatever game the player is at.
     public function leaveGame() {
         $this->game = NULL;
     }
@@ -106,6 +106,10 @@ class Player {
     
     public function getName() {
         return $this->name;
+    }
+    
+    public function getMoney() {
+        return $this->money;
     }
     
     public function getAvailableOptions() {
