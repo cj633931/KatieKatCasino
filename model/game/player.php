@@ -1,10 +1,11 @@
 <?php
+require_once 'hand.php';
 
 class Player {
     
     private $name;
     private $money;
-    private $hands = array();
+    private $hand;
     private $game = NULL; // if a game is NULL that means they haven't joined one yet.
     private $type;
     
@@ -36,14 +37,14 @@ class Player {
             if (!isset($amount)) {
                 $amount = $this->game->getMinimumBet();
             }
-            $this->hands = array();
+            $this->hand = array();
             $this->ponyUp($amount);
             $newHand = new Hand($amount);
             $firstCard = $this->game->getDealer()->deal();
             $newHand->hit($firstCard);
             $secondCard = $this->game->getDealer()->deal();
             $newHand->hit($secondCard);
-            array_push($this->hands, $newHand);
+            array_push($this->hand, $newHand);
         }
     }
     
@@ -61,30 +62,10 @@ class Player {
         $this->money += $amount;
     }
     
-    public function play() {
-        foreach ($this->hands as $hand) {
-            while (!$hand->isDone()) {
-                $bet = $hand->getBet();
-                if ($this->type == 'human') {
-                    $this->decide(hand);
-                }
-            }
-        }
-    }
-    
     public function shouldDoubleWith($hand) {
         // A player should double down when they have an 11.
         $should = FALSE;
         if ($hand->getValue() === 11) {
-            $should = TRUE;
-        }
-        return $should;
-    }
-    
-    public function shouldSplitWith($hand) {
-        // A player should split if they can split, they have enough money, and the hand value is 20.
-        $should = FALSE;
-        if ($hand->canSplit() && $this->money >= $hand->bet && $hand->getValue() === 20) {
             $should = TRUE;
         }
         return $should;
@@ -112,10 +93,7 @@ class Player {
         return $this->money;
     }
     
-    public function getAvailableOptions() {
-        $options = array();
-        if ($this->hands) {
-            
-        }
+    public function getHandString() {
+        return (string) $this->hand;
     }
 }

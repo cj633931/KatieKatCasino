@@ -15,12 +15,13 @@ switch ($action) {
     case 'view_play':
         session_start();
         if (!isset($_SESSION['session'])) {
-            $_SESSION['player'] = new Player('Guest', 1000);
+            $_SESSION['player'] = new Human('Guest', 1000);
         } else {
             $profile = ProfileDB::get_profile_info($_SESSION['session']);
-            $_SESSION['player'] = new Player($profile['username'], $profile['money']);
+            $_SESSION['player'] = new Human($profile['username'], $profile['money']);
         }
         $_SESSION['game'] = new Game(1, 50);
+        $_SESSION['player']->joinGame($_SESSION['game']);
         $_SESSION['game']->addPlayer($_SESSION['player']);
         $isNewHand = TRUE;
         $canSurrender = FALSE;
@@ -28,13 +29,26 @@ switch ($action) {
         $canStand = FALSE;
         $canDouble = FALSE;
         $canSplit = FALSE;
+        $messages = "You sit down at the table.\nThe dealer greets you.";
         include '../view/play.php';
         break;
 
-    case 'run_game':
+    case 'bet':
         session_start();
-        $user = $_SESSION['user'];
-        $player = new Human($name, $money, $initialBet);
+        $bet = filter_input(INPUT_POST, 'bet');
+        try {
+            $_SESSION['player']->bet($bet);
+        } catch (Exception $betError) {
+            $error = $betError->getMessage();
+            include '../view/play.php';
+        }
+        $messages = "You place $". $bet ." on the table.\nThe dealer gives you two cards.\n". $_SESSION['game']->getDealerHand() . $_SESSION['game']->getPlayerHand();
+        $isNewHand = FALSE;
+        $canSurrender = $_SESSION['player'];
+        $canHit = TRUE;
+        $canStand = FALSE;
+        $canDouble = FALSE;
+        include '../view/play.php';
         break;
 
     case 'view_rules':

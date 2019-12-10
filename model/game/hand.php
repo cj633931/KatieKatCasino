@@ -16,26 +16,9 @@ class Hand {
     }
 
     public function __toString() {
-        $string = 'This hand ';
-        if ($this->blackjack) {
-            $string = $string . 'is a blackjack!';
-        }
-        if ($this->busted) {
-            $string = $string . 'has busted.';
-        }
-        if ($this->standing) { 
-            $string = $string . 'has stood.';
-        }
-        if ($this->split) {
-            $string = $string . 'has split.';
-        }
-        if ($this->doubled) {
-            $string = $string . 'has doubled down.';
-        }
-        if ($this->done) {
-            $string = $string . 'is done playing.';
-        } else {
-            $string = $string . 'is still playing.';
+        $string = '| ';
+        foreach ($this->cards as $card) {
+            $string .+ $card . ' | ';
         }
         return $string;
     }
@@ -97,26 +80,6 @@ class Hand {
             $this->busted = TRUE;
             $this->done = TRUE;
         }
-    }
-    
-    public function split() {
-        if ($this->canSplit()) {
-            $this->split = TRUE;
-            $card = array_pop($this->cards);
-            return $card;
-        } else {
-            throw new Exception('Cannot split this hand: ' . $this);
-        }
-    }
-    
-    public function canSplit() {
-        $canSplit = FALSE;
-        if (count($this->cards) === 2) {
-            if ($this->cards[0]->getSoftValue() === $this->cards[1]->getSoftValue() && !$this->done) {
-                $canSplit = TRUE;
-            }
-        }
-        return $canSplit;
     }
     
     public function double($card) {
