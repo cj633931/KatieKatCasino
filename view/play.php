@@ -36,5 +36,10 @@
         <input type="submit" value="Stand">
     </form>
     <?php } ?>
+    <?php if ($_SESSION['gameOver']) { ?>
+    <form action="?action=view_play" method="post">
+        <input type="submit" value="Play Again">
+    </form>
+    <?php } ?>
 </main>
 <?php include 'footer.php'; ?>

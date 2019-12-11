@@ -10,6 +10,15 @@ class ProfileDB {
         $stmt->bindValue(":username", $username);
         $stmt->execute();
     }
+    
+    public static function update_money($profileID, $newMoney) {
+        $db = Database::getDB();
+        $query = "UPDATE profiles SET money = :money WHERE ID = :profileID";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(":money", $newMoney);
+        $stmt->bindValue(":profileID", $profileID);
+        $stmt->execute();
+    }
 
     public static function add_profile($fName, $lName, $username, $password) {
         $db = Database::getDB();
@@ -57,6 +66,36 @@ class ProfileDB {
             }
         }
         return false;
+    }
+    
+    public static function get_top_player() {
+        $db = Database::getDB();
+        $query = "SELECT username, money FROM profiles ORDER BY money, username DESC";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        if(empty($results)) {
+            return null;
+        } else {
+            $record = $results[0];
+            $profile = new Profile('', '', $record["username"], $record["money"]);
+            return $profile;
+        }
+    }
+    
+    public static function get_bottom_player() {
+        $db = Database::getDB();
+        $query = "SELECT username, money FROM profiles ORDER BY money, username ASC";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        if(empty($results)) {
+            return null;
+        } else {
+            $record = $results[0];
+            $profile = new Profile('', '', $record["username"], $record["money"]);
+            return $profile;
+        }
     }
 
     public static function select_all() {

@@ -23,10 +23,10 @@ class Hand {
 
     public function canHit() {
         $canHit = TRUE;
-        if (!$this->getValue() === 21 || !$this->blackjack ||
-                                     !$this->busted ||
-                                     !$this->standing) {
-            $canHit = TRUE;
+        if ($this->getValue() === 21 || $this->blackjack ||
+                                     $this->busted ||
+                                     $this->standing) {
+            $canHit = FALSE;
         }
         return $canHit;
     }

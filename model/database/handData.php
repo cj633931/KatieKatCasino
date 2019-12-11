@@ -11,8 +11,16 @@ class handData {
     public function __construct($bet='', $hits='', $bust='', $win='', $winnings='') {
         $this->bet = $bet;
         $this->hits = $hits;
-        $this->bust = $bust;
-        $this->win = $win;
+        if ($bust == 0) {
+            $this->bust = 'No';
+        } else {
+            $this->bust = 'Yes';
+        }
+        if ($win == 0) {
+            $this->win = 'No';
+        } else {
+            $this->win = 'Yes';
+        }
         $this->winnings = $winnings;
     }
     

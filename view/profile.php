@@ -5,7 +5,7 @@
     <table>
         <tr>
             <th>
-                Bet Amount
+                Bet
             </th>
             <th>
                 Hits
@@ -20,15 +20,17 @@
                 Winnings
             </th>
         </tr>
-        <?php foreach ($results as $result) { ?>
+        <?php 
+        if (isset($results)) {
+            foreach ($results as $result) { ?>
         <tr>
-            <td><?php $result->getBet() ?></td>
-            <td><?php $result->getHits() ?></td>
-            <td><?php $result->getBust() ?></td>
-            <td><?php $result->getWin() ?></td>
-            <td><?php $result->getWinnins() ?></td>
+            <td><?php echo htmlspecialchars($result->getBet()) ?></td>
+            <td><?php echo htmlspecialchars($result->getHits()) ?></td>
+            <td><?php echo htmlspecialchars($result->getBust()) ?></td>
+            <td><?php echo htmlspecialchars($result->getWin()) ?></td>
+            <td><?php echo htmlspecialchars($result->getWinnings()) ?></td>
         </tr>
-        <?php } ?>
+        <?php } }?>
     </table>
 </main>
 <?php include 'footer.php'; ?>
