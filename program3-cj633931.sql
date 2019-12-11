@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2019 at 09:25 AM
+-- Generation Time: Dec 11, 2019 at 10:53 PM
 -- Server version: 10.4.8-MariaDB
 -- PHP Version: 7.3.10
 
@@ -29,15 +29,41 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `hands` (
+  `handID` int(11) NOT NULL,
   `profileID` int(11) NOT NULL,
   `bet` int(11) NOT NULL,
-  `surrender` tinyint(1) NOT NULL DEFAULT 0,
-  `split` tinyint(1) NOT NULL DEFAULT 0,
-  `doubleDown` tinyint(1) NOT NULL DEFAULT 0,
   `hits` int(11) NOT NULL,
   `bust` tinyint(1) NOT NULL DEFAULT 0,
-  `win` tinyint(1) DEFAULT NULL COMMENT 'NULL could mean a tie.'
+  `win` tinyint(1) DEFAULT NULL COMMENT 'NULL could mean a tie.',
+  `winnings` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `hands`
+--
+
+INSERT INTO `hands` (`handID`, `profileID`, `bet`, `hits`, `bust`, `win`, `winnings`) VALUES
+(12, 2, 5, 0, 0, 1, 5),
+(13, 2, 5, 0, 0, 0, -5),
+(14, 2, 5, 0, 0, 0, -5),
+(15, 2, 5, 0, 0, 0, -5),
+(16, 2, 5, 0, 0, 0, -5),
+(17, 2, 5, 1, 0, 1, 5),
+(18, 2, 5, 1, 0, 0, -5),
+(19, 2, 5, 4, 0, 0, -5),
+(20, 2, 5, 4, 0, 0, -5),
+(21, 2, 5, 1, 0, 0, -5),
+(22, 2, 5, 1, 1, 0, -5),
+(23, 2, 5, 0, 0, 1, 8),
+(24, 2, 5, 0, 0, 1, 5),
+(25, 2, 5, 1, 0, 0, -5),
+(26, 3, 3, 1, 0, 1, 3),
+(27, 3, 14, 1, 0, 1, 14),
+(28, 3, 8, 0, 0, 0, -8),
+(29, 3, 4, 2, 0, 0, -4),
+(30, 2, 7, 0, 0, 0, -7),
+(31, 4, 7, 0, 0, 0, -7),
+(32, 4, 3, 0, 0, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -51,12 +77,28 @@ CREATE TABLE `profiles` (
   `lName` varchar(20) NOT NULL,
   `username` varchar(20) NOT NULL,
   `password` varchar(200) NOT NULL,
-  `session` varchar(100) DEFAULT NULL
+  `money` int(11) NOT NULL,
+  `session` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `profiles`
+--
+
+INSERT INTO `profiles` (`ID`, `fName`, `lName`, `username`, `password`, `money`, `session`) VALUES
+(2, 'Katie', 'Kat', 'KatieKat', '$2y$10$U3suyaCJoZChkXvG2srRhu27jTQCNCz6rH02ePZxnmNqc65qgsxym', 976, NULL),
+(3, 'Chase', 'Jenkins', 'cjenkins2018', '$2y$10$RckTVyqbbVkNTwjI7EPQtO.q1QUNQPyJKk7Buc/7vorNg4dWLVjkO', 1005, NULL),
+(4, 'Timmy', 'Tim', 'TimmyTim', '$2y$10$n/X4JBBdo2eczKEtxnsyfenRbB9dS/Aam/GcY66eBddhPidB5EDJy', 996, '81p81fa1ce2r80pjitoo0j3kc6');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `hands`
+--
+ALTER TABLE `hands`
+  ADD PRIMARY KEY (`handID`);
 
 --
 -- Indexes for table `profiles`
@@ -69,10 +111,16 @@ ALTER TABLE `profiles`
 --
 
 --
+-- AUTO_INCREMENT for table `hands`
+--
+ALTER TABLE `hands`
+  MODIFY `handID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
 -- AUTO_INCREMENT for table `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

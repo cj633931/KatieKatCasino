@@ -1,2 +1,9 @@
 # Program 3
-put usernames and passwords for demo accounts here
+username: cjenkins2018
+password: Tester_1
+
+username: TimmyTim
+password: Tester_1
+
+username: KatieKat
+password: Tester_1
