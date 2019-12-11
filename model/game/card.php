@@ -10,23 +10,23 @@ class Card {
     private $face = FALSE;
     private $showing = FALSE;
 
-    const ranks = array('A' => 'Ace',
-        '2' => 'Two',
-        '3' => 'Three',
-        '4' => 'Four',
-        '5' => 'Five',
-        '6' => 'Six',
-        '7' => 'Seven',
-        '8' => 'Eight',
-        '9' => 'Nine',
-        '10' => 'Ten',
-        'J' => 'Jack',
-        'Q' => 'Queen',
-        'K' => 'King');
-    const suits = array('HEARTS' => '\u2661',
-        'DIAMONDS' => '\u2662',
-        'SPADES' => '\u2660',
-        'CLUBS' => '\u2663');
+    const ranks = array('Ace' => 'Ace',
+        'Two' => 'Two',
+        'Three' => 'Three',
+        'Four' => 'Four',
+        'Five' => 'Five',
+        'Six' => 'Six',
+        'Seven' => 'Seven',
+        'Eight' => 'Eight',
+        'Nine' => 'Nine',
+        'Ten' => 'Ten',
+        'Jack' => 'Jack',
+        'Queen' => 'Queen',
+        'King' => 'King');
+    const suits = array('Hearts' => 'Hearts',
+        'Diamonds' => 'Diamonds',
+        'Spades' => 'Spades',
+        'Clubs' => 'Clubs');
     const hardValues = array('Ace' => 1,
         'Two' => 2,
         'Three' => 3,
@@ -54,9 +54,7 @@ class Card {
         'Queen' => 10,
         'King' => 10);
 
-    public function __construct($cardRank, $cardSuit, $showing = FALSE) {
-        $rank = strtoupper($cardRank);
-        $suit = strtoupper($cardSuit);
+    public function __construct($rank, $suit, $showing = FALSE) {
         // Assign Card a rank if valid.
         if (in_array($rank, Card::ranks)) {
             $this->rank = $rank;
@@ -65,21 +63,21 @@ class Card {
         }
         // Assign Card a suit if valid.
         if (in_array($suit, Card::suits)) {
-            $this->suit = $rank;
+            $this->suit = $suit;
         } else {
             throw new Exception('Invalid card suit: ' . $suit);
         }
         // Is Card an ace?
-        if ($this->rank == Card::ranks['A']) {
+        if ($this->rank == Card::ranks['Ace']) {
             $this->ace = TRUE;
         }
         // Is Card a face card?
-        if (in_array($rank, array(Card::ranks['J'], Card::ranks['Q'], Card::ranks['K']))) {
+        if (in_array($rank, array(Card::ranks['Jack'], Card::ranks['Queen'], Card::ranks['King']))) {
             $this->face = TRUE;
         }
         // Is Card showing?
-        if ($showing == TRUE) {
-            $this->showing = $showing;
+        if ($showing === TRUE) {
+            $this->showing = TRUE;
         }
         // Set the hard and soft value of the Card.
         if (!isset($this->hardValue) || !isset($this->softValue)) {
@@ -89,7 +87,12 @@ class Card {
     }
     
     public function __toString() {
-        return $this->rank . ' of ' . $this->suit;
+        if ($this->isShowing() === TRUE) {
+            return $this->rank . ' of ' . $this->suit;
+        }
+        else {
+            return 'Hidden';
+        }
     }
     
     public function getRank() {
@@ -120,7 +123,11 @@ class Card {
         return $this->showing;
     }
     
-    public function flip() {
-        $this->showing = !$this->showing;
+    public function show() {
+        $this->showing = TRUE;
+    }
+    
+    public function hide() {
+        $this->showing = FALSE;
     }
 }

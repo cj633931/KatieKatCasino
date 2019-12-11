@@ -37,14 +37,13 @@ class Player {
             if (!isset($amount)) {
                 $amount = $this->game->getMinimumBet();
             }
-            $this->hand = array();
             $this->ponyUp($amount);
             $newHand = new Hand($amount);
             $firstCard = $this->game->getDealer()->deal();
             $newHand->hit($firstCard);
             $secondCard = $this->game->getDealer()->deal();
             $newHand->hit($secondCard);
-            array_push($this->hand, $newHand);
+            $this->hand = $newHand;
         }
     }
     
@@ -62,15 +61,6 @@ class Player {
         $this->money += $amount;
     }
     
-    public function shouldDoubleWith($hand) {
-        // A player should double down when they have an 11.
-        $should = FALSE;
-        if ($hand->getValue() === 11) {
-            $should = TRUE;
-        }
-        return $should;
-    }
-    
     public function shouldStandWith($hand) {
         // Optimally, a player should stand when their hand is greater than or equal to 16.
         $should = FALSE;
@@ -78,11 +68,6 @@ class Player {
             $should = TRUE;
         }
         return $should;
-    }
-    
-    public function shouldSurrenderWith($hand) {
-        // Surrendering is almost always a bad idea for players. They shouldn't.
-        return FALSE;
     }
     
     public function getName() {
@@ -93,7 +78,7 @@ class Player {
         return $this->money;
     }
     
-    public function getHandString() {
-        return (string) $this->hand;
+    public function getHand() {
+        return $this->hand;
     }
 }

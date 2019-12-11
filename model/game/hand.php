@@ -7,8 +7,6 @@ class Hand {
     private $blackjack = FALSE;
     private $busted = FALSE;
     private $standing = FALSE;
-    private $split = FALSE;
-    private $doubled = FALSE;
     private $done = FALSE;
 
     public function __construct($bet) {
@@ -16,19 +14,18 @@ class Hand {
     }
 
     public function __toString() {
-        $string = '| ';
+        $string = "| ";
         foreach ($this->cards as $card) {
-            $string .+ $card . ' | ';
+            $string .= $card ." | ";
         }
         return $string;
     }
 
-    private function canHit() {
+    public function canHit() {
         $canHit = TRUE;
-        if ($this->getValue() === 21 || $this->blackjack ||
-                                     $this->doubled ||
-                                     $this->busted ||
-                                     $this->standing) {
+        if (!$this->getValue() === 21 || !$this->blackjack ||
+                                     !$this->busted ||
+                                     !$this->standing) {
             $canHit = TRUE;
         }
         return $canHit;
@@ -42,6 +39,11 @@ class Hand {
         } else {
             throw new Exception('Cannot hit on this hand: ' . $this);
         }
+    }
+    
+    public function stand() {
+        $this->standing = TRUE;
+        $this->done = TRUE;
     }
 
     public function getValue() {
@@ -68,45 +70,29 @@ class Hand {
         return $value;
     }
     
-    private function checkBlackjack() {
-        if ($this->value() === 21 && count($this->cards) === 2) {
+    public function checkBlackjack() {
+        if ($this->getValue() === 21 && count($this->cards) === 2) {
             $this->blackjack = TRUE;
             $this->done = TRUE;
         }
     }
     
-    private function checkBusted() {
+    public function checkBusted() {
         if ($this->getValue() > 21) {
             $this->busted = TRUE;
             $this->done = TRUE;
         }
     }
     
-    public function double($card) {
-        if ($this->canDouble()) {
-            $card->flip();
-            array_push($this->cards, $card);
-            $this->doubled = TRUE;
-            $this->done = TRUE;
-            $this->checkBusted();
-        } else {
-            throw new Exception('Cannot double down on this hand: ' . $this);
-        }
-    }
-    
-    public function canDouble() {
-        // If you can hit, you can double down.
-        return $this->canHit();
-    }
-    
-    public function canSurrender() {
-        // You can only surrender when the hand has two cards.
-        if (count($this->cards) > 2) {
+    public function canStand() {
+        if ($this->isDone()) {
             return FALSE;
-        } else {
+        }
+        else {
             return TRUE;
         }
     }
+    
     
     public function getCards() {
         return $this->cards;
@@ -126,14 +112,6 @@ class Hand {
 
     public function isStanding() {
         return $this->standing;
-    }
-
-    public function isSplit() {
-        return $this->split;
-    }
-
-    public function isDoubled() {
-        return $this->doubled;
     }
 
     public function isDone() {
@@ -158,14 +136,6 @@ class Hand {
 
     public function setStanding($standing) {
         $this->standing = $standing;
-    }
-
-    public function setSplit($split) {
-        $this->split = $split;
-    }
-
-    public function setDoubled($doubled) {
-        $this->doubled = $doubled;
     }
 
     public function setDone($done) {

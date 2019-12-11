@@ -84,6 +84,21 @@ class ProfileDB {
         }
     }
     
+    public static function get_profile_id($session) {
+        $db = Database::getDB();
+        $query = "SELECT ID FROM profiles WHERE session = :session";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(":session", $session);
+        $stmt->execute();
+        $results = $stmt->fetchAll();
+        if(empty($results)) {
+            return null;
+        } else {
+            $id = $results[0];
+            return $id;
+        }
+    }
+    
     public static function logout($session) {
         $db = Database::getDB();
         $query = "UPDATE profiles SET session = null WHERE session = :session";

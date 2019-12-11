@@ -16,34 +16,24 @@
 
     </table>
     <br>
-    <textarea rows="10" cols="50" readonly><?php echo htmlspecialchars($messages) ?></textarea>
+    <textarea rows="10" cols="50" readonly><?php echo htmlspecialchars($_SESSION['message']) ?></textarea>
     <p>
         <?php echo htmlspecialchars($error) ?>
     </p>
-    <?php if ($isNewHand) { ?>
+    <?php if ($_SESSION['isNewHand']) { ?>
     <form action="?action=bet" method="post">
         <input type="number" name="bet">
         <input type="submit" value="Bet" >
     </form>
     <?php } ?>
-    <?php if ($canSurrender) { ?>
-    <form action="?action=surrender" method="post">
-        <input type="submit" value="Surrender">
-    </form>
-    <?php } ?>
-    <?php if ($canHit) { ?>
+    <?php if ($_SESSION['canHit']) { ?>
     <form action="?action=hit" method="post">
         <input type="submit" value="Hit">
     </form>
     <?php } ?>
-    <?php if ($canStand) { ?>
+    <?php if ($_SESSION['canStand']) { ?>
     <form action="?action=stand" method="post">
         <input type="submit" value="Stand">
-    </form>
-    <?php } ?>
-    <?php if ($canDouble) { ?>
-    <form action="?action=double" method="post">
-        <input type="submit" value="Double Down">
     </form>
     <?php } ?>
 </main>
