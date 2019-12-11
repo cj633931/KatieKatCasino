@@ -70,7 +70,7 @@ class ProfileDB {
     
     public static function get_top_player() {
         $db = Database::getDB();
-        $query = "SELECT username, money FROM profiles ORDER BY money, username DESC";
+        $query = "SELECT username, money FROM profiles ORDER BY money DESC LIMIT 3";
         $stmt = $db->prepare($query);
         $stmt->execute();
         $results = $stmt->fetchAll();
@@ -85,7 +85,7 @@ class ProfileDB {
     
     public static function get_bottom_player() {
         $db = Database::getDB();
-        $query = "SELECT username, money FROM profiles ORDER BY money, username ASC";
+        $query = "SELECT username, money FROM profiles ORDER BY money ASC LIMIT 3";
         $stmt = $db->prepare($query);
         $stmt->execute();
         $results = $stmt->fetchAll();
