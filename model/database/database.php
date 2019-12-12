@@ -2,7 +2,7 @@
 
 class Database {
 
-    private static $dsn = 'mysql:host=localhost;dbname=program3-cj633931';
+    private static $dsn = 'mysql:host=localhost;dbname=program3cj633931';
     private static $dbusername = 'root';
     private static $password = '';
     private static $db;

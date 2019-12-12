@@ -50,7 +50,7 @@ class ProfileDB {
     
     public static function try_login($username, $password) {
         $db = Database::getDB();
-        $query = 'SELECT `password` FROM profiles WHERE `username` = :username';
+        $query = 'SELECT password FROM profiles WHERE username = :username';
         $stmt = $db->prepare($query);
         $stmt->bindValue(':username', $username);
         $stmt->execute();
